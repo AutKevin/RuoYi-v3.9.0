@@ -1,6 +1,10 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.SysConfig;
 
 /**
@@ -8,8 +12,10 @@ import com.ruoyi.system.domain.SysConfig;
  * 
  * @author ruoyi
  */
-public interface ISysConfigService
+public interface ISysConfigService  extends IService<SysConfig>
 {
+    List selectConfigListTestMp(SysConfig sysConfig);
+
     /**
      * 查询参数配置信息
      * 

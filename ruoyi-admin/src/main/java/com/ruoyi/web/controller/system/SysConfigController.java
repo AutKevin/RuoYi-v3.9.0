@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,26 @@ public class SysConfigController extends BaseController
 {
     @Autowired
     private ISysConfigService configService;
+
+    /**
+     * 测试MybatisPlus
+     */
+    @GetMapping("/selectConfigListTestMp")
+    public List selectConfigListTestMp(SysConfig config)
+    {
+        List<SysConfig> list = configService.selectConfigListTestMp(config);
+        return list;
+    }
+
+    /**
+     * 测试MybatisPlus - 调用IService方法
+     */
+    @GetMapping("/selectConfigList2TestMp")
+    public List selectConfigList2TestMp(SysConfig config)
+    {
+        List<Map<String, Object>> maps = configService.listMaps();
+        return maps;
+    }
 
     /**
      * 获取参数配置列表

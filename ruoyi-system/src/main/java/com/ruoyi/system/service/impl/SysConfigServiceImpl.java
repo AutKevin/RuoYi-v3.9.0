@@ -3,6 +3,9 @@ package com.ruoyi.system.service.impl;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataSource;
@@ -23,7 +26,7 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl implements ISysConfigService
+public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService
 {
     @Autowired
     private SysConfigMapper configMapper;
@@ -38,6 +41,25 @@ public class SysConfigServiceImpl implements ISysConfigService
     public void init()
     {
         loadingConfigCache();
+    }
+
+    /**
+     * 测试mp
+     *
+     * @return 参数配置信息
+     */
+    @Override
+    @DataSource(DataSourceType.MASTER)
+    public List selectConfigListTestMp(SysConfig sysConfig)
+    {
+        QueryWrapper<SysConfig> queryWrapper = new QueryWrapper<>();
+        if (sysConfig.getConfigKey() != null) {
+            queryWrapper.eq("config_key", sysConfig.getConfigKey());
+        }
+        if (sysConfig.getConfigValue() != null) {
+            queryWrapper.like("config_value", sysConfig.getConfigValue());
+        }
+        return configMapper.selectList(queryWrapper);
     }
 
     /**
