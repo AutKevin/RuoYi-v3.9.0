@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,6 +25,7 @@ import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.framework.config.properties.DruidProperties;
 import com.ruoyi.framework.datasource.DynamicDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * druid 配置多数据源
@@ -123,4 +126,33 @@ public class DruidConfig
         registrationBean.addUrlPatterns(commonJsPattern);
         return registrationBean;
     }
+
+    /**
+     * JdbcTemplate配置
+     *
+     *
+     *
+     * 使用： 在Service层中使用如下内容
+     private final JdbcTemplate slaveJdbcTemplate;
+     private final JdbcTemplate masterJdbcTemplate;
+
+     @Autowired
+     public ClassName(
+     @Qualifier("masterjdbcTemplate") JdbcTemplate masterJdbcTemplate,
+     @Qualifier("slavejdbcTemplate") JdbcTemplate slaveJdbcTemplate) {
+         this.masterJdbcTemplate = masterJdbcTemplate;
+         this.slaveJdbcTemplate = slaveJdbcTemplate;
+     }
+     * @param dataSource
+     * @return
+     */
+    @Bean
+    public JdbcTemplate masterjdbcTemplate(@Qualifier("masterDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+    @Bean
+    public JdbcTemplate slavejdbcTemplate(@Qualifier("slaveDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
 }
