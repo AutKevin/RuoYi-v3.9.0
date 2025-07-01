@@ -6,6 +6,7 @@ import ${packageName}.domain.${ClassName};
 #if($table.sub)
 import ${packageName}.domain.${subClassName};
 #end
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ${functionName}Mapper接口
@@ -13,6 +14,7 @@ import ${packageName}.domain.${subClassName};
  * @author ${author}
  * @date ${datetime}
  */
+@Mapper
 public interface ${ClassName}Mapper extends BaseMapper<${ClassName}>
 {
     /**
